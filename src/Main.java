@@ -75,7 +75,6 @@ public class Main extends Application {
             }
         });
 
-
         sp.getChildren().addAll(borderBox, mainBoxBG, mainBox, text, eventRectangle);
         sp.setStyle("-fx-background-color: #454545");
         vb.getChildren().add(sp);
