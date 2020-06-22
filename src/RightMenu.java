@@ -145,7 +145,7 @@ public class RightMenu {
             }
         });
         disconnectButton.getChildren().addAll(disconnectWidthController, disconnectBorderBox, disconnectMainBoxBG, disconnectMainBox, disconnectText, disconnectEventRectangle);
-        disconnectButton.translateYProperty().bind(bp.heightProperty().subtract(75));
+        disconnectButton.translateYProperty().bind(bp.heightProperty().subtract(75+40));
         disconnectButton.setStyle("-fx-background-color: #2b2b2b");
 
 
