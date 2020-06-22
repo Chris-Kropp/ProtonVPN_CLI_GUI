@@ -13,6 +13,8 @@ public class RightMenu {
     boolean isConnected = false;
     public Pane makeMenu(BorderPane bp, Stage primaryStage) {
         Pane rightPane = new Pane();
+
+
         StackPane fastestButton = new StackPane();
         Rectangle fastestWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
         Rectangle fastestBorderBox = new Rectangle(240, 50, Color.GREEN);
@@ -24,7 +26,7 @@ public class RightMenu {
         Rectangle fastestMainBoxBG = new Rectangle(235, 45, Color.rgb(43,43,43));
         fastestMainBoxBG.setArcHeight(100);
         fastestMainBoxBG.setArcWidth(50);
-        Text fastestText = new Text("Random Connection");
+        Text fastestText = new Text("Fastest Server");
         fastestText.setFill(Color.GREEN);
         fastestText.setScaleX(1.9);
         fastestText.setScaleY(1.9);
@@ -44,7 +46,7 @@ public class RightMenu {
         fastestEventRectangle.setOnMousePressed(e -> fastestMainBox.setFill(Color.rgb(0, 200, 0, 0.85)));
         fastestEventRectangle.setOnMouseReleased(e -> {
             try {
-                Process fa = Runtime.getRuntime().exec("protonvpn d");
+                Process fa = Runtime.getRuntime().exec("protonvpn f");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -54,6 +56,48 @@ public class RightMenu {
         fastestButton.setStyle("-fx-background-color: #2b2b2b");
 
 
+        StackPane randomButton = new StackPane();
+        Rectangle randomWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
+        Rectangle randomBorderBox = new Rectangle(240, 50, Color.GREEN);
+        randomBorderBox.setArcHeight(100);
+        randomBorderBox.setArcWidth(50);
+        Rectangle randomMainBox = new Rectangle(235, 45, Color.TRANSPARENT);
+        randomMainBox.setArcHeight(100);
+        randomMainBox.setArcWidth(50);
+        Rectangle randomMainBoxBG = new Rectangle(235, 45, Color.rgb(43,43,43));
+        randomMainBoxBG.setArcHeight(100);
+        randomMainBoxBG.setArcWidth(50);
+        Text randomText = new Text("Random Connection");
+        randomText.setFill(Color.GREEN);
+        randomText.setScaleX(1.9);
+        randomText.setScaleY(1.9);
+        Rectangle randomEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
+        randomEventRectangle.setArcHeight(100);
+        randomEventRectangle.setArcWidth(50);
+        randomEventRectangle.setOnMouseEntered(e -> {
+            randomMainBox.setFill(Color.rgb(0, 200, 0, 0.75));
+            randomText.setFill(Color.BLACK);
+            primaryStage.getScene().setCursor(Cursor.HAND);
+        });
+        randomEventRectangle.setOnMouseExited(e -> {
+            randomMainBox.setFill(Color.rgb(0, 200, 0, 0));
+            randomText.setFill(Color.GREEN);
+            primaryStage.getScene().setCursor(Cursor.DEFAULT);
+        });
+        randomEventRectangle.setOnMousePressed(e -> randomMainBox.setFill(Color.rgb(0, 200, 0, 0.85)));
+        randomEventRectangle.setOnMouseReleased(e -> {
+            try {
+                Process fa = Runtime.getRuntime().exec("protonvpn r");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        randomButton.getChildren().addAll(randomWidthController, randomBorderBox, randomMainBoxBG, randomMainBox, randomText, randomEventRectangle);
+        randomButton.setTranslateY(100);
+        randomButton.setStyle("-fx-background-color: #2b2b2b");
+
+
+//TODO: add offset of all not outermost visible of .setTranslateY(-0.25)
         StackPane disconnectButton = new StackPane();
         Rectangle disconnectWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
         Rectangle disconnectBorderBox = new Rectangle(200, 50, Color.DIMGREY);
@@ -105,7 +149,7 @@ public class RightMenu {
         disconnectButton.setStyle("-fx-background-color: #2b2b2b");
 
 
-        rightPane.getChildren().addAll(fastestButton, disconnectButton);
+        rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton);
         rightPane.setStyle("-fx-background-color: #2b2b2b");
 
         return rightPane;

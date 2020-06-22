@@ -16,7 +16,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Stack;
 
 public class Main extends Application {
@@ -59,6 +63,18 @@ public class Main extends Application {
 //            }
 //        });
 //        rightPane.getChildren().add(fastest);
+
+
+
+
+        final File folder = new File("./ServerConfigs");
+        ArrayList<String> str = listFilesForFolder(folder);
+        for (String s: str) {
+            System.out.println(s);
+            String s2 = s.split("\\.")[0];
+            s2 = s2.toUpperCase().replace("-0", "#");
+            System.out.println(s2);
+        }
 
 
         Pane rp = new Pane();
@@ -186,5 +202,22 @@ public class Main extends Application {
         Scene scn = new Scene(bp);
         primaryStage.setScene(scn);
         primaryStage.show();
+    }
+
+    public ArrayList<String> listFilesForFolder(final File folder) {
+        ArrayList<String> files = new ArrayList<>();
+        for (final File fileEntry : Objects.requireNonNull(folder.listFiles())) {
+            try {
+                if (fileEntry.isDirectory()) {
+                    listFilesForFolder(fileEntry);
+                }
+                else {
+                    files.add(fileEntry.getName());
+                }
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        }
+        return files;
     }
 }
