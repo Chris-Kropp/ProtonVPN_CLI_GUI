@@ -1,4 +1,7 @@
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -6,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -97,59 +101,100 @@ public class RightMenu {
         randomButton.setStyle("-fx-background-color: #2b2b2b");
 
 
-//TODO: add offset of all not outermost visible of .setTranslateY(-0.25)
-        StackPane disconnectButton = new StackPane();
-        Rectangle disconnectWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
-        Rectangle disconnectBorderBox = new Rectangle(200, 50, Color.DIMGREY);
-        disconnectBorderBox.setArcHeight(100);
-        disconnectBorderBox.setArcWidth(50);
-        Rectangle disconnectMainBox = new Rectangle(195, 45, Color.TRANSPARENT);
-        disconnectMainBox.setArcHeight(100);
-        disconnectMainBox.setArcWidth(50);
-        Rectangle disconnectMainBoxBG = new Rectangle(195, 45, Color.rgb(43,43,43));
-        disconnectMainBoxBG.setArcHeight(100);
-        disconnectMainBoxBG.setArcWidth(50);
-        Text disconnectText = new Text("Disconnect");
-        disconnectText.setFill(Color.DIMGREY);
-        disconnectText.setScaleX(2);
-        disconnectText.setScaleY(2);
-        Rectangle disconnectEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
-        disconnectEventRectangle.setArcHeight(100);
-        disconnectEventRectangle.setArcWidth(50);
-        disconnectEventRectangle.setOnMouseEntered(e -> {
-            if(isConnected){
-                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.75));
-                disconnectText.setFill(Color.WHITE);
-                primaryStage.getScene().setCursor(Cursor.HAND);
+        Button disconnectButton = new Button("Disconnect");
+        Tooltip disconnectTooltip = new Tooltip("Disconnect from the current server");
+        disconnectButton.setTooltip(disconnectTooltip);
+        disconnectTooltip.setShowDelay(Duration.millis(500));
+        disconnectButton.setScaleX(2);
+        disconnectButton.setScaleY(2);
+        if(isConnected){
+            disconnectButton.getStyleClass().set(0, "cancelButton");
+        }
+        else{
+            disconnectButton.getStyleClass().set(0, "disabledButton");
+            disconnectTooltip.setText("You are not currently connected to a server");
+            //TODO: make custom disable script so that tooltip will show up when disconnected, or find if it's possible
+//            disconnectButton.setDisable(true);
+        }
+        disconnectButton.setPadding(new Insets(0,10,0,10));
+        disconnectButton.translateYProperty().bind(rightPane.heightProperty().subtract(50));
+        disconnectButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
+
+
+        disconnectButton.setOnMouseEntered(e -> {
+            disconnectButton.getStyleClass().set(0, "cancelButtonOver");
+        });
+        disconnectButton.setOnMouseExited(e -> {
+            disconnectButton.getStyleClass().set(0, "cancelButton");
+        });
+        disconnectButton.setOnMousePressed(e -> {
+            disconnectButton.getStyleClass().set(0, "cancelButtonPreSelect");
+            System.out.println("pressed");
+        });
+        disconnectButton.setOnMouseReleased(e -> {
+            disconnectButton.getStyleClass().set(0, "cancelButtonOver");
+            System.out.println("Released");
+            try {
+                Process fa = Runtime.getRuntime().exec("protonvpn d");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
-        disconnectEventRectangle.setOnMouseExited(e -> {
-            if(isConnected) {
-                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0));
-                disconnectText.setFill(Color.RED);
-                primaryStage.getScene().setCursor(Cursor.DEFAULT);
-            }
-        });
-        disconnectEventRectangle.setOnMousePressed(e -> {
-            if(isConnected) {
-                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.85));
-            }
-        });
-        disconnectEventRectangle.setOnMouseReleased(e -> {
-            if(isConnected) {
-                try {
-                    Process fa = Runtime.getRuntime().exec("protonvpn d");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
-        disconnectButton.getChildren().addAll(disconnectWidthController, disconnectBorderBox, disconnectMainBoxBG, disconnectMainBox, disconnectText, disconnectEventRectangle);
-        disconnectButton.translateYProperty().bind(bp.heightProperty().subtract(75+40));
-        disconnectButton.setStyle("-fx-background-color: #2b2b2b");
+
+
+//        StackPane disconnectButton = new StackPane();
+//        Rectangle disconnectWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
+//        Rectangle disconnectBorderBox = new Rectangle(200, 50, Color.DIMGREY);
+//        disconnectBorderBox.setArcHeight(100);
+//        disconnectBorderBox.setArcWidth(50);
+//        Rectangle disconnectMainBox = new Rectangle(195, 45, Color.TRANSPARENT);
+//        disconnectMainBox.setArcHeight(100);
+//        disconnectMainBox.setArcWidth(50);
+//        Rectangle disconnectMainBoxBG = new Rectangle(195, 45, Color.rgb(43,43,43));
+//        disconnectMainBoxBG.setArcHeight(100);
+//        disconnectMainBoxBG.setArcWidth(50);
+//        Text disconnectText = new Text("Disconnect");
+//        disconnectText.setFill(Color.DIMGREY);
+//        disconnectText.setScaleX(2);
+//        disconnectText.setScaleY(2);
+//        Rectangle disconnectEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
+//        disconnectEventRectangle.setArcHeight(100);
+//        disconnectEventRectangle.setArcWidth(50);
+//        disconnectEventRectangle.setOnMouseEntered(e -> {
+//            if(isConnected){
+//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.75));
+//                disconnectText.setFill(Color.WHITE);
+//                primaryStage.getScene().setCursor(Cursor.HAND);
+//            }
+//        });
+//        disconnectEventRectangle.setOnMouseExited(e -> {
+//            if(isConnected) {
+//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0));
+//                disconnectText.setFill(Color.RED);
+//                primaryStage.getScene().setCursor(Cursor.DEFAULT);
+//            }
+//        });
+//        disconnectEventRectangle.setOnMousePressed(e -> {
+//            if(isConnected) {
+//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.85));
+//            }
+//        });
+//        disconnectEventRectangle.setOnMouseReleased(e -> {
+//            if(isConnected) {
+//                try {
+//                    Process fa = Runtime.getRuntime().exec("protonvpn d");
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
+//        disconnectButton.getChildren().addAll(disconnectWidthController, disconnectBorderBox, disconnectMainBoxBG, disconnectMainBox, disconnectText, disconnectEventRectangle);
+//        disconnectButton.translateYProperty().bind(bp.heightProperty().subtract(75+40));
+//        disconnectButton.setStyle("-fx-background-color: #2b2b2b");
 
 
         rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton);
+        rightPane.getStylesheets().add("Styles.css");
         rightPane.setStyle("-fx-background-color: #2b2b2b");
 
         return rightPane;
