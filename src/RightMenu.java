@@ -1,4 +1,6 @@
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -19,86 +21,120 @@ public class RightMenu {
         Pane rightPane = new Pane();
 
 
-        StackPane fastestButton = new StackPane();
-        Rectangle fastestWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
-        Rectangle fastestBorderBox = new Rectangle(240, 50, Color.GREEN);
-        fastestBorderBox.setArcHeight(100);
-        fastestBorderBox.setArcWidth(50);
-        Rectangle fastestMainBox = new Rectangle(235, 45, Color.TRANSPARENT);
-        fastestMainBox.setArcHeight(100);
-        fastestMainBox.setArcWidth(50);
-        Rectangle fastestMainBoxBG = new Rectangle(235, 45, Color.rgb(43,43,43));
-        fastestMainBoxBG.setArcHeight(100);
-        fastestMainBoxBG.setArcWidth(50);
-        Text fastestText = new Text("Fastest Server");
-        fastestText.setFill(Color.GREEN);
-        fastestText.setScaleX(1.9);
-        fastestText.setScaleY(1.9);
-        Rectangle fastestEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
-        fastestEventRectangle.setArcHeight(100);
-        fastestEventRectangle.setArcWidth(50);
-        fastestEventRectangle.setOnMouseEntered(e -> {
-            fastestMainBox.setFill(Color.rgb(0, 200, 0, 0.75));
-            fastestText.setFill(Color.BLACK);
-            primaryStage.getScene().setCursor(Cursor.HAND);
+        Button fastestButton = new Button("Fastest");
+        Tooltip fastestTooltip = new Tooltip("Connect to a fastest server");
+        fastestButton.setTooltip(fastestTooltip);
+        fastestTooltip.setShowDelay(Duration.millis(500));
+        fastestButton.setScaleX(2);
+        fastestButton.setScaleY(2);
+//        if(isConnected){
+            fastestButton.getStyleClass().set(0, "acceptButton");
+//        }
+//        else{
+//            fastestButton.getStyleClass().set(0, "disabledButton");
+//            fastestTooltip.setText("Cannot connect to a server");
+//        }
+        fastestButton.setPadding(new Insets(0,10,0,10));
+        fastestButton.setTranslateY(-20);
+        fastestButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
+        fastestButton.setOnMouseEntered(e -> {
+//            if(isConnected) {
+                fastestButton.getStyleClass().set(0, "acceptButtonOver");
+//            }
+//            else{
+//                fastestButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        fastestEventRectangle.setOnMouseExited(e -> {
-            fastestMainBox.setFill(Color.rgb(0, 200, 0, 0));
-            fastestText.setFill(Color.GREEN);
-            primaryStage.getScene().setCursor(Cursor.DEFAULT);
+        fastestButton.setOnMouseExited(e -> {
+//            if(isConnected) {
+                fastestButton.getStyleClass().set(0, "acceptButton");
+//            }
+//            else{
+//                fastestButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        fastestEventRectangle.setOnMousePressed(e -> fastestMainBox.setFill(Color.rgb(0, 200, 0, 0.85)));
-        fastestEventRectangle.setOnMouseReleased(e -> {
-            try {
-                Process fa = Runtime.getRuntime().exec("protonvpn f");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        fastestButton.setOnMousePressed(e -> {
+//            if(isConnected) {
+                fastestButton.getStyleClass().set(0, "acceptButtonPreSelect");
+                System.out.println("pressed");
+//            }
+//            else{
+//                fastestButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        fastestButton.getChildren().addAll(fastestWidthController, fastestBorderBox, fastestMainBoxBG, fastestMainBox, fastestText, fastestEventRectangle);
-        fastestButton.setTranslateY(25);
-        fastestButton.setStyle("-fx-background-color: #2b2b2b");
+        fastestButton.setOnMouseReleased(e -> {
+//            if(isConnected) {
+                fastestButton.getStyleClass().set(0, "acceptButtonOver");
+                System.out.println("Released");
+                try {
+                    Process fa = Runtime.getRuntime().exec("protonvpn f");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+//            }
+//            else{
+//                fastestButton.getStyleClass().set(0, "disabledButton");
+//            }
+        });
+        fastestButton.setAlignment(Pos.CENTER);
 
 
-        StackPane randomButton = new StackPane();
-        Rectangle randomWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
-        Rectangle randomBorderBox = new Rectangle(240, 50, Color.GREEN);
-        randomBorderBox.setArcHeight(100);
-        randomBorderBox.setArcWidth(50);
-        Rectangle randomMainBox = new Rectangle(235, 45, Color.TRANSPARENT);
-        randomMainBox.setArcHeight(100);
-        randomMainBox.setArcWidth(50);
-        Rectangle randomMainBoxBG = new Rectangle(235, 45, Color.rgb(43,43,43));
-        randomMainBoxBG.setArcHeight(100);
-        randomMainBoxBG.setArcWidth(50);
-        Text randomText = new Text("Random Connection");
-        randomText.setFill(Color.GREEN);
-        randomText.setScaleX(1.9);
-        randomText.setScaleY(1.9);
-        Rectangle randomEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
-        randomEventRectangle.setArcHeight(100);
-        randomEventRectangle.setArcWidth(50);
-        randomEventRectangle.setOnMouseEntered(e -> {
-            randomMainBox.setFill(Color.rgb(0, 200, 0, 0.75));
-            randomText.setFill(Color.BLACK);
-            primaryStage.getScene().setCursor(Cursor.HAND);
+
+        Button randomButton = new Button("Random");
+        Tooltip randomTooltip = new Tooltip("Connect to a random server");
+        randomButton.setTooltip(randomTooltip);
+        randomTooltip.setShowDelay(Duration.millis(500));
+        randomButton.setScaleX(2);
+        randomButton.setScaleY(2);
+//        if(isConnected){
+            randomButton.getStyleClass().set(0, "acceptButton");
+//        }
+//        else{
+//            randomButton.getStyleClass().set(0, "disabledButton");
+//            randomTooltip.setText("Cannot connect to a server");
+//        }
+        randomButton.setPadding(new Insets(0,10,0,10));
+        randomButton.setTranslateY(30);
+        randomButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
+        randomButton.setOnMouseEntered(e -> {
+//            if(isConnected) {
+                randomButton.getStyleClass().set(0, "acceptButtonOver");
+//            }
+//            else{
+//                randomButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        randomEventRectangle.setOnMouseExited(e -> {
-            randomMainBox.setFill(Color.rgb(0, 200, 0, 0));
-            randomText.setFill(Color.GREEN);
-            primaryStage.getScene().setCursor(Cursor.DEFAULT);
+        randomButton.setOnMouseExited(e -> {
+//            if(isConnected) {
+                randomButton.getStyleClass().set(0, "acceptButton");
+//            }
+//            else{
+//                randomButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        randomEventRectangle.setOnMousePressed(e -> randomMainBox.setFill(Color.rgb(0, 200, 0, 0.85)));
-        randomEventRectangle.setOnMouseReleased(e -> {
-            try {
-                Process fa = Runtime.getRuntime().exec("protonvpn r");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        randomButton.setOnMousePressed(e -> {
+//            if(isConnected) {
+                randomButton.getStyleClass().set(0, "acceptButtonPreSelect");
+                System.out.println("pressed");
+//            }
+//            else{
+//                randomButton.getStyleClass().set(0, "disabledButton");
+//            }
         });
-        randomButton.getChildren().addAll(randomWidthController, randomBorderBox, randomMainBoxBG, randomMainBox, randomText, randomEventRectangle);
-        randomButton.setTranslateY(100);
-        randomButton.setStyle("-fx-background-color: #2b2b2b");
+        randomButton.setOnMouseReleased(e -> {
+//            if(isConnected) {
+                randomButton.getStyleClass().set(0, "acceptButtonOver");
+                System.out.println("Released");
+                try {
+                    Process fa = Runtime.getRuntime().exec("protonvpn r");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+//            }
+//            else{
+//                randomButton.getStyleClass().set(0, "disabledButton");
+//            }
+        });
 
 
         Button disconnectButton = new Button("Disconnect");
@@ -114,88 +150,55 @@ public class RightMenu {
             disconnectButton.getStyleClass().set(0, "disabledButton");
             disconnectTooltip.setText("You are not currently connected to a server");
             //TODO: make custom disable script so that tooltip will show up when disconnected, or find if it's possible
-//            disconnectButton.setDisable(true);
         }
         disconnectButton.setPadding(new Insets(0,10,0,10));
         disconnectButton.translateYProperty().bind(rightPane.heightProperty().subtract(50));
         disconnectButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
-
-
         disconnectButton.setOnMouseEntered(e -> {
-            disconnectButton.getStyleClass().set(0, "cancelButtonOver");
-        });
-        disconnectButton.setOnMouseExited(e -> {
-            disconnectButton.getStyleClass().set(0, "cancelButton");
-        });
-        disconnectButton.setOnMousePressed(e -> {
-            disconnectButton.getStyleClass().set(0, "cancelButtonPreSelect");
-            System.out.println("pressed");
-        });
-        disconnectButton.setOnMouseReleased(e -> {
-            disconnectButton.getStyleClass().set(0, "cancelButtonOver");
-            System.out.println("Released");
-            try {
-                Process fa = Runtime.getRuntime().exec("protonvpn d");
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            if(isConnected) {
+                disconnectButton.getStyleClass().set(0, "cancelButtonOver");
+            }
+            else{
+                disconnectButton.getStyleClass().set(0, "disabledButton");
             }
         });
-
-
-//        StackPane disconnectButton = new StackPane();
-//        Rectangle disconnectWidthController = new Rectangle(250, 50, Color.TRANSPARENT);
-//        Rectangle disconnectBorderBox = new Rectangle(200, 50, Color.DIMGREY);
-//        disconnectBorderBox.setArcHeight(100);
-//        disconnectBorderBox.setArcWidth(50);
-//        Rectangle disconnectMainBox = new Rectangle(195, 45, Color.TRANSPARENT);
-//        disconnectMainBox.setArcHeight(100);
-//        disconnectMainBox.setArcWidth(50);
-//        Rectangle disconnectMainBoxBG = new Rectangle(195, 45, Color.rgb(43,43,43));
-//        disconnectMainBoxBG.setArcHeight(100);
-//        disconnectMainBoxBG.setArcWidth(50);
-//        Text disconnectText = new Text("Disconnect");
-//        disconnectText.setFill(Color.DIMGREY);
-//        disconnectText.setScaleX(2);
-//        disconnectText.setScaleY(2);
-//        Rectangle disconnectEventRectangle = new Rectangle(200, 50, Color.TRANSPARENT);
-//        disconnectEventRectangle.setArcHeight(100);
-//        disconnectEventRectangle.setArcWidth(50);
-//        disconnectEventRectangle.setOnMouseEntered(e -> {
-//            if(isConnected){
-//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.75));
-//                disconnectText.setFill(Color.WHITE);
-//                primaryStage.getScene().setCursor(Cursor.HAND);
-//            }
-//        });
-//        disconnectEventRectangle.setOnMouseExited(e -> {
-//            if(isConnected) {
-//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0));
-//                disconnectText.setFill(Color.RED);
-//                primaryStage.getScene().setCursor(Cursor.DEFAULT);
-//            }
-//        });
-//        disconnectEventRectangle.setOnMousePressed(e -> {
-//            if(isConnected) {
-//                disconnectMainBox.setFill(Color.rgb(255, 0, 0, 0.85));
-//            }
-//        });
-//        disconnectEventRectangle.setOnMouseReleased(e -> {
-//            if(isConnected) {
-//                try {
-//                    Process fa = Runtime.getRuntime().exec("protonvpn d");
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        });
-//        disconnectButton.getChildren().addAll(disconnectWidthController, disconnectBorderBox, disconnectMainBoxBG, disconnectMainBox, disconnectText, disconnectEventRectangle);
-//        disconnectButton.translateYProperty().bind(bp.heightProperty().subtract(75+40));
-//        disconnectButton.setStyle("-fx-background-color: #2b2b2b");
+        disconnectButton.setOnMouseExited(e -> {
+            if(isConnected) {
+                disconnectButton.getStyleClass().set(0, "cancelButton");
+            }
+            else{
+                disconnectButton.getStyleClass().set(0, "disabledButton");
+            }
+        });
+        disconnectButton.setOnMousePressed(e -> {
+            if(isConnected) {
+                disconnectButton.getStyleClass().set(0, "cancelButtonPreSelect");
+                System.out.println("pressed");
+            }
+            else{
+                disconnectButton.getStyleClass().set(0, "disabledButton");
+            }
+        });
+        disconnectButton.setOnMouseReleased(e -> {
+            if(isConnected) {
+                disconnectButton.getStyleClass().set(0, "cancelButtonOver");
+                System.out.println("Released");
+                try {
+                    Process fa = Runtime.getRuntime().exec("protonvpn d");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            else{
+                disconnectButton.getStyleClass().set(0, "disabledButton");
+            }
+        });
 
 
         rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton);
         rightPane.getStylesheets().add("Styles.css");
         rightPane.setStyle("-fx-background-color: #2b2b2b");
+        rightPane.setMinWidth(200);
 
         return rightPane;
     }

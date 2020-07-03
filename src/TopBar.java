@@ -1,69 +1,142 @@
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
 public class TopBar {
-    Pane makeTopBar() {
-        Pane hb = new Pane();
-
-        StackPane servers = new StackPane();
-        Rectangle serversSelectBG = new Rectangle(50, 20, Color.rgb(45, 45, 45));
-        Rectangle serversSelect = new Rectangle(50, 20, Color.TRANSPARENT);
-        Text serverText = new Text("Servers");
-        serverText.setFill(Color.SLATEGREY);
-        serversSelect.setOnMouseEntered(e -> {
-//            if(isConnected){
-                serversSelectBG.setFill(Color.rgb(75, 75, 75));
-//                primaryStage.getScene().setCursor(Cursor.HAND);
-//            }
-        });
-        serversSelect.setOnMouseExited(e -> {
+    public Pane makeMenu(BorderPane bp, Stage primaryStage) {
+        Pane topPane = new Pane();
+        Button serverTab = new Button("Servers");
+        Tooltip serverTooltip = new Tooltip("Connect to a server server");
+        serverTab.setTooltip(serverTooltip);
+        serverTooltip.setShowDelay(Duration.millis(500));
+        serverTab.setScaleX(2);
+        serverTab.setScaleY(2);
+//        if(isConnected){
+        serverTab.getStyleClass().set(0, "acceptButton");
+//        }
+//        else{
+//            serverTab.getStyleClass().set(0, "disabledTab");
+//            serverTooltip.setText("Cannot connect to a server");
+//        }
+        serverTab.setPadding(new Insets(0,10,0,10));
+        serverTab.setTranslateY(30);
+//        serverTab.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
+        serverTab.setOnMouseEntered(e -> {
 //            if(isConnected) {
-                serversSelectBG.setFill(Color.rgb(45, 45, 45));
-//                primaryStage.getScene().setCursor(Cursor.DEFAULT);
+            serverTab.getStyleClass().set(0, "tabButtonOver");
+//            }
+//            else{
+//                serverTab.getStyleClass().set(0, "disabledTab");
 //            }
         });
-        serversSelect.setOnMousePressed(e -> {
+        serverTab.setOnMouseExited(e -> {
 //            if(isConnected) {
-                serversSelectBG.setFill(Color.rgb(100, 100, 100));
+            serverTab.getStyleClass().set(0, "tabButton");
+//            }
+//            else{
+//                serverTab.getStyleClass().set(0, "disabledTab");
 //            }
         });
-        serversSelect.setOnMouseReleased(e -> {
+        serverTab.setOnMousePressed(e -> {
 //            if(isConnected) {
-//                try {
-            System.out.println("mouse released");
-            serverText.setFill(Color.WHITE);
-//                    Process fa = Runtime.getRuntime().exec("protonvpn d");
-//                } catch (IOException ex) {
-//                    ex.printStackTrace();
-//                }
+            serverTab.getStyleClass().set(0, "tabButtonPreSelect");
+            System.out.println("pressed");
+//            }
+//            else{
+//                serverTab.getStyleClass().set(0, "disabledTab");
+//            }
+        });
+        serverTab.setOnMouseReleased(e -> {
+//            if(isConnected) {
+            serverTab.getStyleClass().set(0, "tabButtonOver");
+            System.out.println("Released");
+            try {
+                Process fa = Runtime.getRuntime().exec("protonvpn r");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+//            }
+//            else{
+//                serverTab.getStyleClass().set(0, "disabledTab");
 //            }
         });
 
 
+        Button settingsTab = new Button("Settings");
+        Tooltip settingsTooltip = new Tooltip("Connect to a settings server");
+        settingsTab.setTooltip(settingsTooltip);
+        settingsTooltip.setShowDelay(Duration.millis(500));
+        settingsTab.setScaleX(2);
+        settingsTab.setScaleY(2);
+//        if(isConnected){
+        settingsTab.getStyleClass().set(0, "acceptButton");
+//        }
+//        else{
+//            settingsTab.getStyleClass().set(0, "disabledTab");
+//            settingsTooltip.setText("Cannot connect to a server");
+//        }
+        settingsTab.setPadding(new Insets(0,10,0,10));
+        settingsTab.setTranslateY(30);
+//        settingsTab.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
+        settingsTab.setOnMouseEntered(e -> {
+//            if(isConnected) {
+            settingsTab.getStyleClass().set(0, "tabButtonOver");
+//            }
+//            else{
+//                settingsTab.getStyleClass().set(0, "disabledTab");
+//            }
+        });
+        settingsTab.setOnMouseExited(e -> {
+//            if(isConnected) {
+            settingsTab.getStyleClass().set(0, "tabButton");
+//            }
+//            else{
+//                settingsTab.getStyleClass().set(0, "disabledTab");
+//            }
+        });
+        settingsTab.setOnMousePressed(e -> {
+//            if(isConnected) {
+            settingsTab.getStyleClass().set(0, "tabButtonPreSelect");
+            System.out.println("pressed");
+//            }
+//            else{
+//                settingsTab.getStyleClass().set(0, "disabledTab");
+//            }
+        });
+        settingsTab.setOnMouseReleased(e -> {
+//            if(isConnected) {
+            settingsTab.getStyleClass().set(0, "tabButtonOver");
+            System.out.println("Released");
+            try {
+                Process fa = Runtime.getRuntime().exec("protonvpn r");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+//            }
+//            else{
+//                settingsTab.getStyleClass().set(0, "disabledTab");
+//            }
+        });
+
+//        serverTab.setTranslateX(20);
+//        settingsTab.setTranslateX(120);
 
 
-        StackPane settings = new StackPane();
+        topPane.getChildren().addAll(serverTab);
+        topPane.getStylesheets().add("Styles.css");
+        topPane.setStyle("-fx-background-color: #2b2b2b");
+        topPane.setMinHeight(50);
 
-
-        servers.getChildren().addAll(serversSelectBG, serverText, serversSelect);
-        servers.setScaleX(2);
-        servers.setScaleY(2);
-        servers.setTranslateX(25);
-        servers.setTranslateY(10);
-
-        Rectangle divider = new Rectangle(1, 40, Color.rgb(45, 45, 45));
-        hb.getChildren().addAll(servers, divider);
-        hb.setStyle("-fx-background-color: #2b2b2b");
-//        hb.setScaleX(2);
-//        hb.setScaleY(2);
-        return hb;
+        return topPane;
     }
 }
