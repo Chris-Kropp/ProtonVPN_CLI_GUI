@@ -58,8 +58,11 @@ public class Main extends Application {
         list.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
 
-        bp.setCenter(new GridPane());
+        GridPane centerPane = new GridPane();
+        centerPane.setStyle("-fx-background-color: #2b2b2b");
+        bp.setCenter(centerPane);
         bp.setTop(new TopBar().makeMenu(bp, primaryStage));
+        bp.setRight(new RightMenu().makeMenu(bp, primaryStage));
 
         final File folder = new File("./ServerConfigs");
         ArrayList<String> str = listFilesForFolder(folder);
@@ -70,7 +73,7 @@ public class Main extends Application {
             System.out.println(s2);
         }
 
-        bp.setRight(new RightMenu().makeMenu(bp, primaryStage));
+
 
         Scene scn = new Scene(bp);
         primaryStage.setScene(scn);

@@ -62,27 +62,55 @@
 
 
 .tabButton{
-    -fx-background-radius: 50;
+    -fx-background-radius: 0;
     -fx-background-color: #2b2b2b;
-    -fx-border-color: #00b000;
-    -fx-border-radius:50;
-    -fx-text-fill: #00b000;
+    -fx-border-color: #2b2b2b;
+    -fx-border-radius: 0;
+    -fx-text-fill: #8f8f8f;
 }
 
 .tabButtonOver{
-    -fx-background-radius: 50;
-    -fx-background-color: #a0a0a0;
-    -fx-border-color: #00b000;
-    -fx-border-radius: 50;
-    -fx-text-fill: #2b2b2b;
+    -fx-background-radius: 0;
+    -fx-background-color: #a8a8a8;
+    -fx-border-color: #a8a8a8;
+    -fx-border-radius: 0;
+    -fx-text-fill: #ffffff;
     -fx-cursor: HAND;
 }
 
 .tabButtonPreSelect{
-    -fx-background-radius: 50;
-    -fx-background-color: #00c000;
-    -fx-border-color: #00c000;
-    -fx-border-radius: 50;
-    -fx-text-fill: #2b2b2b;
+    -fx-background-radius: 0;
+    -fx-background-color: #b8b8b8;
+    -fx-border-color: #b8b8b8;
+    -fx-border-radius: 0;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: HAND;
+}
+
+
+.tabButtonSelected{
+    -fx-background-radius: 0;
+    -fx-background-color: #3b3b3b;
+    -fx-border-color: #b8b8b8;
+    -fx-border-radius: 0;
+    -fx-text-fill: #b8b8b8;
+    -fx-cursor: HAND;
+}
+
+.tabButtonOverSelected{
+    -fx-background-radius: 0;
+    -fx-background-color: #a8a8a8;
+    -fx-border-color: #b8b8b8;
+    -fx-border-radius: 0;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: HAND;
+}
+
+.tabButtonPreSelectSelected{
+    -fx-background-radius: 0;
+    -fx-background-color: #b8b8b8;
+    -fx-border-color: #b8b8b8;
+    -fx-border-radius: 0;
+    -fx-text-fill: #ffffff;
     -fx-cursor: HAND;
 }

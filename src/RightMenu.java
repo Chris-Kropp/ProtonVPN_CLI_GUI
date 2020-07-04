@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -35,7 +36,7 @@ public class RightMenu {
 //            fastestTooltip.setText("Cannot connect to a server");
 //        }
         fastestButton.setPadding(new Insets(0,10,0,10));
-        fastestButton.setTranslateY(-20);
+        fastestButton.setTranslateY(-10);
         fastestButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
         fastestButton.setOnMouseEntered(e -> {
 //            if(isConnected) {
@@ -94,7 +95,7 @@ public class RightMenu {
 //            randomTooltip.setText("Cannot connect to a server");
 //        }
         randomButton.setPadding(new Insets(0,10,0,10));
-        randomButton.setTranslateY(30);
+        randomButton.setTranslateY(40);
         randomButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
         randomButton.setOnMouseEntered(e -> {
 //            if(isConnected) {
@@ -195,7 +196,14 @@ public class RightMenu {
         });
 
 
-        rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton);
+        Line sideLine = new Line(0, 0, 0, 0);
+        sideLine.setStrokeWidth(2);
+        sideLine.setFill(Color.rgb(184, 184, 184));
+        sideLine.setStroke(Color.rgb(184, 184, 184));
+        sideLine.endYProperty().bind(rightPane.heightProperty());
+
+
+        rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton, sideLine);
         rightPane.getStylesheets().add("Styles.css");
         rightPane.setStyle("-fx-background-color: #2b2b2b");
         rightPane.setMinWidth(200);
