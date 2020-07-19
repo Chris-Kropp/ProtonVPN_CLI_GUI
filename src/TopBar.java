@@ -1,8 +1,11 @@
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -16,6 +19,8 @@ import java.io.IOException;
 public class TopBar {
 
     boolean serverSelected = true;
+    double x, y;
+
     public Pane makeMenu(BorderPane bp, Stage primaryStage) {
         Pane topPane = new Pane();
 
@@ -124,12 +129,28 @@ public class TopBar {
         bottomLine.setFill(Color.rgb(184, 184, 184));
         bottomLine.setStroke(Color.rgb(184, 184, 184));
         bottomLine.endXProperty().bind(topPane.widthProperty().subtract(200));
-
-        topPane.getChildren().addAll(serverTab, settingsTab, bottomLine);
         topPane.getStylesheets().add("Styles.css");
         topPane.setStyle("-fx-background-color: #2b2b2b");
         topPane.setMinHeight(30);
 
+
+//        Rectangle dragBox = new Rectangle(30, 30, Color.RED);
+//        dragBox.setTranslateX(300);
+//        dragBox.setOnMouseClicked(this::dragClicked);
+//
+//        dragBox.setOnMouseDragged(e -> {
+//            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+//            stage.setX(e.getScreenX()-x);
+//            stage.setY(e.getScreenY()-y);
+//        });
+//
+//
+        topPane.getChildren().addAll(serverTab, settingsTab, bottomLine);
         return topPane;
     }
+
+//    void dragClicked(MouseEvent event){
+//        x = event.getSceneX();
+//        y = event.getSceneY();
+//    }
 }

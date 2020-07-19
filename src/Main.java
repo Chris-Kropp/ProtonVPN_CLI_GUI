@@ -1,30 +1,16 @@
-import javafx.animation.Animation;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Stack;
 
 public class Main extends Application {
 
@@ -62,7 +48,7 @@ public class Main extends Application {
         centerPane.setStyle("-fx-background-color: #2b2b2b");
         bp.setCenter(centerPane);
         bp.setTop(new TopBar().makeMenu(bp, primaryStage));
-        bp.setRight(new RightMenu().makeMenu(bp, primaryStage));
+        bp.setRight(new RightMenu().makeDisconnectedMenu(bp, primaryStage));
 
         final File folder = new File("./ServerConfigs");
         ArrayList<String> str = listFilesForFolder(folder);
@@ -77,6 +63,7 @@ public class Main extends Application {
 
         Scene scn = new Scene(bp);
         primaryStage.setScene(scn);
+
         primaryStage.show();
     }
 

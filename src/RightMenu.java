@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class RightMenu {
     boolean isConnected = false;
-    public Pane makeMenu(BorderPane bp, Stage primaryStage) {
+    public Pane makeDisconnectedMenu(BorderPane bp, Stage primaryStage) {
         Pane rightPane = new Pane();
 
 
@@ -150,7 +150,6 @@ public class RightMenu {
         else{
             disconnectButton.getStyleClass().set(0, "disabledButton");
             disconnectTooltip.setText("You are not currently connected to a server");
-            //TODO: make custom disable script so that tooltip will show up when disconnected, or find if it's possible
         }
         disconnectButton.setPadding(new Insets(0,10,0,10));
         disconnectButton.translateYProperty().bind(rightPane.heightProperty().subtract(50));
@@ -196,11 +195,11 @@ public class RightMenu {
         });
 
 
-        Line sideLine = new Line(0, 0, 0, 0);
+        Line sideLine = new Line(0, -30, 0, 0);
         sideLine.setStrokeWidth(2);
         sideLine.setFill(Color.rgb(184, 184, 184));
         sideLine.setStroke(Color.rgb(184, 184, 184));
-        sideLine.endYProperty().bind(rightPane.heightProperty());
+        sideLine.endYProperty().bind(rightPane.heightProperty().add(20));
 
 
         rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton, sideLine);
