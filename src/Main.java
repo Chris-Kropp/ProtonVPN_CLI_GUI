@@ -47,7 +47,7 @@ public class Main extends Application {
         GridPane centerPane = new GridPane();
         centerPane.setStyle("-fx-background-color: #2b2b2b");
         bp.setCenter(centerPane);
-        bp.setTop(new TopBar().makeMenu(bp, primaryStage));
+//        bp.setTop(new TopBar().makeMenu(bp, primaryStage));
         bp.setRight(new RightMenu().makeDisconnectedMenu(bp, primaryStage));
 
         final File folder = new File("./ServerConfigs");

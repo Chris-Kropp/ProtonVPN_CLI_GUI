@@ -1,16 +1,16 @@
-import javafx.geometry.HPos;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -20,6 +20,35 @@ public class RightMenu {
     boolean isConnected = false;
     public Pane makeDisconnectedMenu(BorderPane bp, Stage primaryStage) {
         Pane rightPane = new Pane();
+
+        Button settingsTab = new Button("⚙");
+        Tooltip settingsTooltip = new Tooltip("Change program settings");
+        settingsTab.setTooltip(settingsTooltip);
+        settingsTooltip.setShowDelay(Duration.millis(500));
+        settingsTab.setScaleX(3);
+        settingsTab.setScaleY(3);
+        settingsTab.getStyleClass().set(0, "tabButton");
+        settingsTab.setPadding(new Insets(0,2,-2,2));
+        settingsTab.setTranslateX(170);
+        settingsTab.setTranslateY(10);
+        settingsTab.setOnMouseEntered(e -> {
+            settingsTab.getStyleClass().set(0, "tabButtonOver");
+        });
+        settingsTab.setOnMouseExited(e -> {
+            settingsTab.getStyleClass().set(0, "tabButton");
+        });
+        settingsTab.setOnMousePressed(e -> {
+            settingsTab.getStyleClass().set(0, "tabButtonPreSelect");
+            System.out.println("pressed");
+        });
+        settingsTab.setOnMouseReleased(e -> {
+            settingsTab.getStyleClass().set(0, "tabButtonOver");
+            try {
+                launchOptions();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
 
         Button fastestButton = new Button("Fastest");
@@ -36,7 +65,7 @@ public class RightMenu {
 //            fastestTooltip.setText("Cannot connect to a server");
 //        }
         fastestButton.setPadding(new Insets(0,10,0,10));
-        fastestButton.setTranslateY(-10);
+        fastestButton.setTranslateY(50);
         fastestButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
         fastestButton.setOnMouseEntered(e -> {
 //            if(isConnected) {
@@ -95,7 +124,7 @@ public class RightMenu {
 //            randomTooltip.setText("Cannot connect to a server");
 //        }
         randomButton.setPadding(new Insets(0,10,0,10));
-        randomButton.setTranslateY(40);
+        randomButton.setTranslateY(100);
         randomButton.translateXProperty().bind(rightPane.widthProperty().divide(2).subtract(40));
         randomButton.setOnMouseEntered(e -> {
 //            if(isConnected) {
@@ -202,11 +231,15 @@ public class RightMenu {
         sideLine.endYProperty().bind(rightPane.heightProperty().add(20));
 
 
-        rightPane.getChildren().addAll(fastestButton, randomButton, disconnectButton, sideLine);
+        rightPane.getChildren().addAll(settingsTab, fastestButton, randomButton, disconnectButton, sideLine);
         rightPane.getStylesheets().add("Styles.css");
         rightPane.setStyle("-fx-background-color: #2b2b2b");
         rightPane.setMinWidth(200);
 
         return rightPane;
+    }
+
+    void launchOptions() throws IOException {
+        new SettingsPage().makeSettings();
     }
 }
