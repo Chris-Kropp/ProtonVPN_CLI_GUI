@@ -1,3 +1,5 @@
+import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -7,6 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class SettingsPage {
     void makeSettings(){//BorderPane bp, Stage primaryStage) {
@@ -30,6 +34,7 @@ public class SettingsPage {
         note.setLayoutX(9);
         note.setLayoutY(27);
 
+
         ToggleGroup protocol = new ToggleGroup();
         RadioButton tcp = new RadioButton("TCP");
         tcp.setToggleGroup(protocol);
@@ -42,11 +47,11 @@ public class SettingsPage {
         udp.setLayoutY(96);
         udp.setTextFill(Color.rgb(184, 184, 184));
 
+
         CheckBox dnsToggle = new CheckBox("Enable DNS Management");
         dnsToggle.setLayoutX(36);
         dnsToggle.setLayoutY(119);
         dnsToggle.setTextFill(Color.rgb(184, 184, 184));
-
         ToggleGroup dnsGroup = new ToggleGroup();
         RadioButton protonDNS = new RadioButton("Use ProtonVPN DNS (DNS Leak Protection)");
         protonDNS.setToggleGroup(dnsGroup);
@@ -62,6 +67,19 @@ public class SettingsPage {
         dnsEntry.setStyle("-fx-background-color: #dddddd");
         dnsEntry.setLayoutX(182);
         dnsEntry.setLayoutY(154);
+        dnsToggle.selectedProperty().addListener(l ->{
+            if(dnsToggle.isSelected()){
+                protonDNS.setDisable(false);
+                customDNS.setDisable(false);
+                dnsEntry.setDisable(false);
+            }
+            else{
+                protonDNS.setDisable(true);
+                customDNS.setDisable(true);
+                dnsEntry.setDisable(true);
+            }
+        });
+
 
         CheckBox killSwitch = new CheckBox("Enable Kill Switch");
         killSwitch.setLayoutX(36);
@@ -71,19 +89,60 @@ public class SettingsPage {
         lanAccess.setLayoutX(55);
         lanAccess.setLayoutY(196);
         lanAccess.setTextFill(Color.rgb(184, 184, 184));
+        killSwitch.selectedProperty().addListener(l ->{
+            if(killSwitch.isSelected()){
+                lanAccess.setDisable(false);
+            }
+            else{
+                lanAccess.setDisable(true);
+            }
+        });
+
 
         CheckBox splitTunneling = new CheckBox("Enable Split Tunneling");
         splitTunneling.setLayoutX(36);
         splitTunneling.setLayoutY(213);
         splitTunneling.setTextFill(Color.rgb(184, 184, 184));
 
+
         Button acceptSettings = new Button("Accept");
         acceptSettings.setLayoutX(240);
         acceptSettings.setLayoutY(277);
+        acceptSettings.setPadding(new Insets(0,10, 0,10));
+        acceptSettings.getStyleClass().set(0, "flatButton");
+        acceptSettings.setOnMouseEntered(e -> {
+            acceptSettings.getStyleClass().set(0, "flatButtonOver");
+        });
+        acceptSettings.setOnMouseExited(e -> {
+            acceptSettings.getStyleClass().set(0, "flatButton");
+        });
+        acceptSettings.setOnMousePressed(e -> {
+            acceptSettings.getStyleClass().set(0, "flatButtonPreSelect");
+        });
+        acceptSettings.setOnMouseReleased(e -> {
+            acceptSettings.getStyleClass().set(0, "flatButtonOver");
+        });
         Button cancelSettings = new Button("Cancel");
         cancelSettings.setLayoutX(300);
         cancelSettings.setLayoutY(277);
+        cancelSettings.setPadding(new Insets(0,10, 0,10));
+        cancelSettings.getStyleClass().set(0, "flatButton");
+        cancelSettings.setOnMouseEntered(e -> {
+            cancelSettings.getStyleClass().set(0, "flatButtonOver");
+        });
+        cancelSettings.setOnMouseExited(e -> {
+            cancelSettings.getStyleClass().set(0, "flatButton");
+        });
+        cancelSettings.setOnMousePressed(e -> {
+            cancelSettings.getStyleClass().set(0, "flatButtonPreSelect");
+        });
+        cancelSettings.setOnMouseReleased(e -> {
+            cancelSettings.getStyleClass().set(0, "flatButtonOver");
+            settingsStage.close();
+        });
 
+
+        pane.getStylesheets().add("Styles.css");
         pane.getChildren().addAll(note, tcp, udp, dnsToggle, protonDNS, customDNS, dnsEntry, killSwitch, lanAccess, splitTunneling, acceptSettings, cancelSettings);
         Scene scene = new Scene(pane, 378, 312);
         settingsStage.setTitle("Settings");

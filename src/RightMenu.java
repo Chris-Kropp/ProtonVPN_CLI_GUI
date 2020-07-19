@@ -27,22 +27,22 @@ public class RightMenu {
         settingsTooltip.setShowDelay(Duration.millis(500));
         settingsTab.setScaleX(3);
         settingsTab.setScaleY(3);
-        settingsTab.getStyleClass().set(0, "tabButton");
+        settingsTab.getStyleClass().set(0, "flatButton");
         settingsTab.setPadding(new Insets(0,2,-2,2));
         settingsTab.setTranslateX(170);
         settingsTab.setTranslateY(10);
         settingsTab.setOnMouseEntered(e -> {
-            settingsTab.getStyleClass().set(0, "tabButtonOver");
+            settingsTab.getStyleClass().set(0, "flatButtonOver");
         });
         settingsTab.setOnMouseExited(e -> {
-            settingsTab.getStyleClass().set(0, "tabButton");
+            settingsTab.getStyleClass().set(0, "flatButton");
         });
         settingsTab.setOnMousePressed(e -> {
-            settingsTab.getStyleClass().set(0, "tabButtonPreSelect");
+            settingsTab.getStyleClass().set(0, "flatButtonPreSelect");
             System.out.println("pressed");
         });
         settingsTab.setOnMouseReleased(e -> {
-            settingsTab.getStyleClass().set(0, "tabButtonOver");
+            settingsTab.getStyleClass().set(0, "flatButtonOver");
             try {
                 launchOptions();
             } catch (IOException ex) {
