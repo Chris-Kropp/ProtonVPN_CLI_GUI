@@ -5,10 +5,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontSmoothingType;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class SettingsPage {
@@ -123,6 +126,47 @@ public class SettingsPage {
         });
         acceptSettings.setOnMouseReleased(e -> {
             acceptSettings.getStyleClass().set(0, "flatButtonOver");
+            try {
+                acceptSettings();
+                settingsStage.close();
+            }
+            catch(Exception exception){
+                Stage alertStage = new Stage();
+                Pane alertPane = new Pane();
+                Scene alertScene = new Scene(alertPane);
+                alertPane.setStyle("-fx-background-color: #2b2b2b");
+
+                Text alertNote = new Text("No valid settings detected, please set them up in order to continue.");
+                alertNote.setFontSmoothingType(FontSmoothingType.LCD);
+                alertNote.setFill(Color.rgb(184, 184, 184));
+                alertNote.setWrappingWidth(300);
+                alertNote.setLayoutX(9);
+                alertNote.setLayoutY(27);
+
+                Button alertOK = new Button("Okay");
+                alertOK.setLayoutX(250);
+                alertOK.setLayoutY(50);
+                alertOK.setPadding(new Insets(0,10, 10,10));
+                alertOK.getStyleClass().set(0, "flatButton");
+                alertOK.setOnMouseEntered(e2 -> {
+                    alertOK.getStyleClass().set(0, "flatButtonOver");
+                });
+                alertOK.setOnMouseExited(e2 -> {
+                    alertOK.getStyleClass().set(0, "flatButton");
+                });
+                alertOK.setOnMousePressed(e2 -> {
+                    alertOK.getStyleClass().set(0, "flatButtonPreSelect");
+                });
+                alertOK.setOnMouseReleased(e2 -> {
+                    alertOK.getStyleClass().set(0, "flatButtonOver");
+                    alertStage.close();
+                });
+
+                alertPane.getStylesheets().add("Styles.css");
+                alertPane.getChildren().addAll(alertNote, alertOK);
+                alertStage.setScene(alertScene);
+                alertStage.show();
+            }
         });
 
         cancelSettings.setLayoutX(300);
@@ -146,15 +190,66 @@ public class SettingsPage {
 
         try {
             getSettings();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();    //show error window, move to settings, make recursive attempts, have counter to check
+            pane.getChildren().addAll(note, tcp, udp, dnsToggle, protonDNS, customDNS, dnsEntry, killSwitch, lanAccess, splitTunneling, acceptSettings, cancelSettings);
+            pane.getStylesheets().add("Styles.css");
+            Scene scene = new Scene(pane, 378, 312);
+            settingsStage.setTitle("Settings");
+            settingsStage.setScene(scene);
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            settingsStage.show();
         }
-        pane.getStylesheets().add("Styles.css");
-        pane.getChildren().addAll(note, tcp, udp, dnsToggle, protonDNS, customDNS, dnsEntry, killSwitch, lanAccess, splitTunneling, acceptSettings, cancelSettings);
-        Scene scene = new Scene(pane, 378, 312);
-        settingsStage.setTitle("Settings");
-        settingsStage.setScene(scene);
-        settingsStage.show();
+        catch (FileNotFoundException e) {
+            e.printStackTrace();    //show error window, move to settings, make recursive attempts, have counter to check
+            pane.getChildren().addAll(note, tcp, udp, dnsToggle, protonDNS, customDNS, dnsEntry, killSwitch, lanAccess, splitTunneling, acceptSettings);
+            settingsStage.initStyle(StageStyle.UNDECORATED);
+            pane.getStylesheets().add("Styles.css");
+            Scene scene = new Scene(pane, 378, 312);
+            settingsStage.setTitle("Settings");
+            settingsStage.setScene(scene);
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            protonDNS.setDisable(true);
+            customDNS.setDisable(true);
+            dnsEntry.setDisable(true);
+            lanAccess.setDisable(true);
+
+            settingsStage.show();
+
+            Stage alertStage = new Stage();
+            Pane alertPane = new Pane();
+            Scene alertScene = new Scene(alertPane);
+            alertPane.setStyle("-fx-background-color: #2b2b2b");
+
+            Text alertNote = new Text("No valid settings detected, please set them up in order to continue.");
+            alertNote.setFontSmoothingType(FontSmoothingType.LCD);
+            alertNote.setFill(Color.rgb(184, 184, 184));
+            alertNote.setWrappingWidth(300);
+            alertNote.setLayoutX(9);
+            alertNote.setLayoutY(27);
+
+            Button alertOK = new Button("Okay");
+            alertOK.setLayoutX(250);
+            alertOK.setLayoutY(50);
+            alertOK.setPadding(new Insets(0,10, 10,10));
+            alertOK.getStyleClass().set(0, "flatButton");
+            alertOK.setOnMouseEntered(e2 -> {
+                alertOK.getStyleClass().set(0, "flatButtonOver");
+            });
+            alertOK.setOnMouseExited(e2 -> {
+                alertOK.getStyleClass().set(0, "flatButton");
+            });
+            alertOK.setOnMousePressed(e2 -> {
+                alertOK.getStyleClass().set(0, "flatButtonPreSelect");
+            });
+            alertOK.setOnMouseReleased(e2 -> {
+                alertOK.getStyleClass().set(0, "flatButtonOver");
+                alertStage.close();
+            });
+
+            alertPane.getStylesheets().add("Styles.css");
+            alertPane.getChildren().addAll(alertNote, alertOK);
+            alertStage.setScene(alertScene);
+            alertStage.show();
+        }
     }
 
     void getSettings() throws FileNotFoundException {
@@ -169,30 +264,92 @@ public class SettingsPage {
                         switch (lineData[1]){
                             case "tcp":
                                 udp.setSelected(true);
+                                break;
                             case "udp":
                                 udp.setSelected(true);
+                                break;
                         }
                     case "dnsmanagement":
                         switch (lineData[1]){
                             case "true":
                                 dnsToggle.setSelected(true);
+                                break;
                             case "false":
                                 dnsToggle.setSelected(false);
-                                //disable dieabled ones
+                                protonDNS.setDisable(true);
+                                customDNS.setDisable(true);
+                                dnsEntry.setDisable(true);
+                                break;
                         }
                     case "dnstype":
                         switch (lineData[1]){
-                            case "tcp":
-                                tcp.setSelected(true);
-                            case "udp":
-                                tcp.setSelected(true);
+                            case "proton":
+                                protonDNS.setSelected(true);
+                                break;
+                            case "custom":
+                                customDNS.setSelected(true);
+                                break;
                         }
                     case "customdns":
+                        dnsEntry.setText(lineData[1]);
+                        break;
+                    case "killswitch":
+                        switch (lineData[1]){
+                            case "true":
+                                killSwitch.setSelected(true);
+                                break;
+                            case "false":
+                                killSwitch.setSelected(false);
+                                lanAccess.setDisable(true);
+                                break;
+                        }
+                    case "lanaccess":
+                        switch (lineData[1]){
+                            case "true":
+                                lanAccess.setSelected(true);
+                                break;
+                            case "false":
+                                lanAccess.setSelected(false);
+                                break;
+                        }
+                    case "splittunneling":
+                        switch (lineData[1]){
+                            case "true":
+                                splitTunneling.setSelected(true);
+                                break;
+                            case "false":
+                                splitTunneling.setSelected(false);
+                                break;
+                        }
                 }
             }
         }
-        else {
-            //run setup page
+    }
+
+    void acceptSettings() throws Exception{
+        try {
+            File myObj = new File("settings.conf");
+            if (myObj.createNewFile()) {
+                String[] toWrite = new String[]{"protocol", "dnsmanagement", "dnstype", "customdns", "killswitch", "lanaccess", "splittunneling"};
+                FileWriter settingsWriter = new FileWriter("settings.conf");
+                for (int i = 0; i < 7; i++) {
+                    switch (i){
+                        case 0:
+                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
+                            String protocolValue = selectedRadioButton.getText();
+                            System.out.println(protocolValue);
+                            settingsWriter.write(toWrite[i] + "=");
+                            break;
+                    }
+                }
+                settingsWriter.close();
+            }
+            else {
+                System.out.println("File already exists.");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
