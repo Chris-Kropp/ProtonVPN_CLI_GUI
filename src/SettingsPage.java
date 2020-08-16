@@ -335,11 +335,45 @@ public class SettingsPage {
                 for (int i = 0; i < 7; i++) {
                     switch (i){
                         case 0:
-                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
-                            String protocolValue = selectedRadioButton.getText();
-                            System.out.println(protocolValue);
-                            settingsWriter.write(toWrite[i] + "=");
+                            RadioButton selectedProtocol = (RadioButton) protocol.getSelectedToggle();  //need to have this in order to use .getText()
+                            String protocolValue = selectedProtocol.getText();
+                            settingsWriter.write(toWrite[i] + "=" + protocolValue.toLowerCase() + "\n");
                             break;
+                        case 1:
+                            String dnsEnabled = String.valueOf(dnsToggle.isSelected());
+                            settingsWriter.write(toWrite[i] + "=" + dnsEnabled + "\n");
+                            break;
+                        case 2:
+                            RadioButton selectedDns = (RadioButton) dnsGroup.getSelectedToggle();
+                            String dnsValue;
+                            if(selectedDns.getText().equals("Use ProtonVPN DNS (DNS Leak Protection)")){
+                                dnsValue = "proton";
+                            }
+                            else{
+                                dnsValue = "custom";
+                            }
+                            settingsWriter.write(toWrite[i] + "=" + dnsValue + "\n");
+                            break;
+                        case 3:
+                            String customDNS = dnsEntry.getText();
+                            settingsWriter.write(toWrite[i] + "=" + customDNS + "\n");
+                            break;
+                        case 4:
+                            String dnsEnabled = String.valueOf(dnsToggle.isSelected());
+                            settingsWriter.write(toWrite[i] + "=" + dnsEnabled + "\n");
+                            break;
+//                        case 5:
+//                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
+//                            String protocolValue = selectedRadioButton.getText();
+//                            System.out.println(protocolValue);
+//                            settingsWriter.write(toWrite[i] + "=");
+//                            break;
+//                        case 6:
+//                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
+//                            String protocolValue = selectedRadioButton.getText();
+//                            System.out.println(protocolValue);
+//                            settingsWriter.write(toWrite[i] + "=");
+//                            break;
                     }
                 }
                 settingsWriter.close();
