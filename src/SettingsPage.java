@@ -263,7 +263,7 @@ public class SettingsPage {
                     case "protocol":
                         switch (lineData[1]){
                             case "tcp":
-                                udp.setSelected(true);
+                                tcp.setSelected(true);
                                 break;
                             case "udp":
                                 udp.setSelected(true);
@@ -291,8 +291,14 @@ public class SettingsPage {
                                 break;
                         }
                     case "customdns":
-                        dnsEntry.setText(lineData[1]);
-                        break;
+                        if(lineData[1].equals("null")){
+                            dnsEntry.setText("");
+                            break;
+                        }
+                        else {
+                            dnsEntry.setText(lineData[1]);
+                            break;
+                        }
                     case "killswitch":
                         switch (lineData[1]){
                             case "true":
@@ -326,10 +332,12 @@ public class SettingsPage {
         }
     }
 
+    //TODO: make accept settings submit the command to change settings
+
     void acceptSettings() throws Exception{
         try {
             File myObj = new File("settings.conf");
-            if (myObj.createNewFile()) {
+            myObj.createNewFile();
                 String[] toWrite = new String[]{"protocol", "dnsmanagement", "dnstype", "customdns", "killswitch", "lanaccess", "splittunneling"};
                 FileWriter settingsWriter = new FileWriter("settings.conf");
                 for (int i = 0; i < 7; i++) {
@@ -356,31 +364,30 @@ public class SettingsPage {
                             break;
                         case 3:
                             String customDNS = dnsEntry.getText();
+                            if(customDNS.equals("")){
+                                customDNS = "null";
+                            }
                             settingsWriter.write(toWrite[i] + "=" + customDNS + "\n");
                             break;
                         case 4:
-                            String dnsEnabled = String.valueOf(dnsToggle.isSelected());
-                            settingsWriter.write(toWrite[i] + "=" + dnsEnabled + "\n");
+                            String killSwitchEnabled = String.valueOf(killSwitch.isSelected());
+                            settingsWriter.write(toWrite[i] + "=" + killSwitchEnabled + "\n");
                             break;
-//                        case 5:
-//                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
-//                            String protocolValue = selectedRadioButton.getText();
-//                            System.out.println(protocolValue);
-//                            settingsWriter.write(toWrite[i] + "=");
-//                            break;
-//                        case 6:
-//                            RadioButton selectedRadioButton = (RadioButton) protocol.getSelectedToggle();
-//                            String protocolValue = selectedRadioButton.getText();
-//                            System.out.println(protocolValue);
-//                            settingsWriter.write(toWrite[i] + "=");
-//                            break;
+                        case 5:
+                            String lanAccessEnabled = String.valueOf(lanAccess.isSelected());
+                            settingsWriter.write(toWrite[i] + "=" + lanAccessEnabled + "\n");
+                            break;
+                        case 6:
+                            String splitTunnelingEnabled = String.valueOf(splitTunneling.isSelected());
+                            settingsWriter.write(toWrite[i] + "=" + splitTunnelingEnabled + "\n");
+                            break;
                     }
                 }
                 settingsWriter.close();
-            }
-            else {
-                System.out.println("File already exists.");
-            }
+//            }
+//            else {
+//                System.out.println("File already exists.");
+//            }
         }
         catch (Exception e) {
             e.printStackTrace();
